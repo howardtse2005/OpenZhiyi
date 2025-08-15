@@ -1,0 +1,23 @@
+/hendrycks_math/
+
+# Environment variables
+/codes/.env
+
+# API Keys and credentials
+/codes/api_config.py
+
+# txt and csv files
+*.txt
+*.csv
+
+# Model files and datasets
+*.jsonl
+huang_model/
+ben_model/
+
+# Python cache
+__pycache__/
+/codes/__pycache__/
+*.pyc
+*.pyo
+
