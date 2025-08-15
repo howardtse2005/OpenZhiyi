@@ -1,4 +1,4 @@
-# Project OpenZhiyi: Reinforcement Learning through small LLMs through debate mechanism with Supervised LLM Judge to improve math reasoning
+# Project OpenZhiyi: Reinforcement Learning of small LLMs through debate mechanism with Supervised LLM Judge to improve math reasoning
 
 This project is about leveraging PPO (Proximal Policy Optimization) traditionally used in RLHF (Reinforcement Learning through Human Feedback). Traditionally, PPO works by a pretrained base model giving responses to a set of queries (problems) and humans give scores to the quality of the responses. Those scores will be normalized and become the RL reward of the model. In Project OpenZhiyi, 2 small models (Prof. Huang and Prof. Ben) are given a set of math problems and an LLM judge (larger model, has access to the solutions / answer keys) will give scores (and hints if they cannot full scores) to the 2 models' responses. The scores are calculated based on these 7 rubrics:
 1. Correctness: The response's final answer matches the answer key
