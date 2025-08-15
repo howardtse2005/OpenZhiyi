@@ -51,7 +51,7 @@ RULES:
         {'role': 'system', 'content': system_prompt + history_info},
         {'role': 'user', 'content': problem}
     ]
-    raw_response, response_tensor, query_tensor, query_dict = llm_callback(messages, temp=0.9, role="huang", problem=problem)
+    raw_response, response_tensor, query_tensor, query_dict = llm_callback(messages, temp=0.7, role="huang", problem=problem)
 
     print(f"[Huang] Response generated successfully")
     

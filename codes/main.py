@@ -17,25 +17,22 @@ from codes.utils.memory_utils import memory_cleanup, init_nvml, print_memory_sta
 
 class Debate:
     def __init__(self):       
-        self.base_model_name = cfg.base_model_name
-        self.huang_model_path = cfg.huang_model_path
-        self.ben_model_path = cfg.ben_model_path
-
+        # Initialize huang and ben models
         self.huang_model = AutoModelForCausalLMWithValueHead.from_pretrained(
-            self.base_model_name,
+            cfg.base_model_name,
             quantization_config=cfg.huang_quantization_config,
             peft_config=cfg.lora_config,
             device_map="cuda:0",
         )
 
         self.ben_model = AutoModelForCausalLMWithValueHead.from_pretrained(
-            self.base_model_name,
+            cfg.base_model_name,
             quantization_config=cfg.ben_quantization_config,
             peft_config=cfg.lora_config,
             device_map="cuda:0",
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(self.base_model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(cfg.base_model_name)
         self.tokenizer.pad_token = self.tokenizer.eos_token
 
         # Initialize for new debate
@@ -55,7 +52,7 @@ class Debate:
         open(self.huang_jsonl_path, "w", encoding="utf-8").close()
         open(self.ben_jsonl_path, "w", encoding="utf-8").close()
 
-        # Initialize huang and ben ppo models
+        # Initialize huang and ben PPO trainers
         config = cfg.ppo_config
 
         self.huang_trainer = PPOTrainer(
@@ -100,7 +97,7 @@ class Debate:
                 log_error(self.logs_file_path, "HUGGINGFACE_API_ERROR", f"HuggingFace failed for role {role}: {str(e)}", self.current_round)
                 return error_msg, None, None, None
 
-    def get_huggingface_response(self, messages, temp=0.9, role="huang", problem=""):
+    def get_huggingface_response(self, messages, temp=0.7, role="huang", problem=""):
         """Get response from PPO-optimized model with proper tensor shapes"""
         try:
             # Convert messages (list of dicts) to a prompt string using chat template
@@ -128,17 +125,7 @@ class Debate:
             prompt_length = query_tensor.shape[0]
 
             # Generation settings
-            generation_kwargs = {
-                "min_length": -1,
-                "top_k": 20,
-                "top_p": 0.8,
-                "min_p": 0.0,
-                "do_sample": True,
-                "temperature": temp,
-                "pad_token_id": self.tokenizer.eos_token_id,
-                "max_new_tokens": 20000,
-                "use_cache": False,
-            }
+            generation_kwargs = cfg.generation_kwargs
     
             # Generate response
             trainer = self.huang_trainer if role == "huang" else self.ben_trainer
@@ -203,8 +190,8 @@ class Debate:
             print(f"Error reading CSV file: {str(e)}")
             return
         finally:
-            self.huang_trainer.save_pretrained(self.huang_model_path)
-            self.ben_trainer.save_pretrained(self.ben_model_path)
+            self.huang_trainer.save_pretrained(cfg.huang_model_path)
+            self.ben_trainer.save_pretrained(cfg.ben_model_path)
 
         print(f"Processing completed! Total rows processed: {total_processed}")
         print(f"All data saved to {output_file_path}")

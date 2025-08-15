@@ -3,6 +3,7 @@ from openai import AzureOpenAI
 from transformers import BitsAndBytesConfig
 from peft import LoraConfig
 from trl import PPOConfig
+from transformers import AutoTokenizer
 
 from codes.api_config import OPENAI_API_KEY, AZURE_ENDPOINT, API_VERSION
 from azure.ai.inference import ChatCompletionsClient
@@ -85,6 +86,20 @@ class Config:
         gradient_checkpointing=True
     )
 
+    # Initialize PPO trainer generation kwargs
+    tokenizer = AutoTokenizer.from_pretrained(base_model_name)
+    
+    generation_kwargs = {
+        "min_length": -1,
+        "top_k": 20,
+        "top_p": 0.8,
+        "min_p": 0.0,
+        "do_sample": True,
+        "temperature": 0.7,
+        "pad_token_id": tokenizer.eos_token_id,
+        "max_new_tokens": 20000,
+        "use_cache": False,
+    }
     # Initialize LoRA
     lora_config = LoraConfig(
         r=8,
