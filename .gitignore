@@ -6,9 +6,8 @@
 # API Keys and credentials
 /codes/api_config.py
 
-# txt and csv files
+# txt files
 *.txt
-*.csv
 
 # Model files and datasets
 *.jsonl

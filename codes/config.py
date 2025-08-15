@@ -12,7 +12,7 @@ class Config:
     # Initialize judge model
     judge_model_name = "gpt-4o-mini" # Options: "gpt-4o-mini", "deepseek-v3"  
     
-    # Initialize huggingface model
+    # Initialize huggingface model that you want to train
     base_model_name = "Qwen/Qwen3-4B"
     huang_model_path = "../huang_model" # Post-trained huang model path
     ben_model_path = "../ben_model" # Post-trained ben model path
