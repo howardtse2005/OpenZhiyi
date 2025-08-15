@@ -26,8 +26,7 @@ BEN'S PREVIOUS ROUND'S FEEDBACK:
 YOUR PREVIOUS ROUND'S REWARD (Scaled 0-1): {reward}
 
 In your <huang_reasoning> tag, you MUST include:
-* The strength of Ben's solution (if any)
-* The weaknesses of Ben's solution (if any)
+* The strengths and weaknesses of Ben's solution (if any)
 * How you would adjust your current round's response based on Ben's previous round's solution
 """
 
@@ -39,11 +38,9 @@ There will be a judge who will score both of you and may provide hints.
 Your reward depends on how well you perform compared to Ben.
 
 RULES:
-1. Your response MUST be a step-by-step detailed solution to the problem, which includes strong proofs (proof by induction, contradiction, or strong proof by cases).
-2. DO NOT provoke the judge! DO NOT write anything else unrelated to the problem!
+1. Your response MUST be a step-by-step detailed solution to the problem, which includes strong mathematical proofs.
+2. DO NOT provoke the judge or write anything else unrelated to the problem!
 3. Your output MUST STRICTLY follow this XML: "<huang_reasoning> [YOUR_REASONING_HERE] </huang_reasoning> <huang_answer> [YOUR_FINAL_ANSWER_HERE] </huang_answer>". DO NOT write any other tags! DO NOT write anything outside the <huang_reasoning> and <huang_answer> tags!
-4. Your output MUST NOT be too short or too long.
-5. Your solution MUST NOT be similar to previous round's responses or Judge's hints.
 
 {f"JUDGE'S HINT: <hint> {judge_hint} </hint>" if judge_hint else ""}
 
